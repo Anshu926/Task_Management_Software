@@ -16,9 +16,9 @@ const MongoStore = require("connect-mongo"); // Required for storing sessions in
 // MongoDB connection URL
 const mongoURI = "mongodb+srv://anshu_bongade1:paT0Azi48zgdvLDM@cluster0.6hhoa.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
 
-// Connect to MongoDB
+// Connect to MongoDB without the deprecated options
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.error("MongoDB connection error:", err));
 
