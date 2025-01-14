@@ -10,6 +10,11 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const session = require("express-session");
 const flash = require("connect-flash");
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
+
+
+
 
 
 // Connection to database
