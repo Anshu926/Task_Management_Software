@@ -13,7 +13,24 @@ const flash = require("connect-flash");
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 
+// Mongo URL 
+const mongoURI = "mongodb+srv://anshu_bongade1:paT0Azi48zgdvLDM@cluster0.6hhoa.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
 
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected..."))
+  .catch(err => console.error(err));
+
+// Configure Session Middleware
+app.use(session({
+  secret: 'your_secret_key', // Replace with your secret key
+  resave: false,             // Prevent session resaving
+  saveUninitialized: false,  // Save uninitialized sessions
+  store: MongoStore.create({ mongoUrl: mongoURI }), // Use MongoDB to store sessions
+  cookie: {
+    secure: false, // Set to `true` if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24 // 1 day in milliseconds
+  }
+}));
 
 
 
@@ -27,14 +44,21 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-// Session middleware for flash messages
-app.use(
-    session({
-        secret: "yourSecretKey", // Replace with a strong, unique secret
-        resave: false,
-        saveUninitialized: true,
-    })
-);
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected..."))
+  .catch(err => console.error(err));
+
+// Configure Session Middleware
+app.use(session({
+  secret: 'your_secret_key', // Replace with your secret key
+  resave: false,             // Prevent session resaving
+  saveUninitialized: false,  // Save uninitialized sessions
+  store: MongoStore.create({ mongoUrl: mongoURI }), // Use MongoDB to store sessions
+  cookie: {
+    secure: false, // Set to `true` if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24 // 1 day in milliseconds
+  }
+}));
 app.use(flash());
 
 // Middleware to make flash messages accessible globally
