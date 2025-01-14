@@ -10,75 +10,54 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const session = require("express-session");
 const flash = require("connect-flash");
-const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo');
 
-// Mongo URL 
+// MongoDB connection URL
 const mongoURI = "mongodb+srv://anshu_bongade1:paT0Azi48zgdvLDM@cluster0.6hhoa.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected..."))
-  .catch(err => console.error(err));
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Configure Session Middleware
-app.use(session({
-  secret: 'your_secret_key', // Replace with your secret key
-  resave: false,             // Prevent session resaving
-  saveUninitialized: false,  // Save uninitialized sessions
-  store: MongoStore.create({ mongoUrl: mongoURI }), // Use MongoDB to store sessions
-  cookie: {
-    secure: false, // Set to `true` if using HTTPS
-    maxAge: 1000 * 60 * 60 * 24 // 1 day in milliseconds
-  }
-}));
+// Middleware: Session Configuration
+app.use(
+  session({
+    secret: "your_secret_key", // Replace with your secret key
+    resave: false,             // Prevent session resaving
+    saveUninitialized: false,  // Don't create uninitialized sessions
+    store: MongoStore.create({ mongoUrl: mongoURI }), // Use MongoDB to store sessions
+    cookie: {
+      secure: false, // Use `true` for HTTPS
+      maxAge: 1000 * 60 * 60 * 24, // 1 day in milliseconds
+    },
+  })
+);
 
+// Middleware: Flash Messages
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.successMessage = req.flash("success")[0];
+  res.locals.errorMessage = req.flash("error")[0];
+  next();
+});
 
+// Passport Middleware Setup
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Connection to database
-connect_db();
+// Passport Configuration for LocalStrategy Authentication
+passport.use(new LocalStrategy(User_passport_model.authenticate()));
+passport.serializeUser(User_passport_model.serializeUser());
+passport.deserializeUser(User_passport_model.deserializeUser());
 
-// Middleware
+// Middleware: Template Engine and Static Files
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB Connected..."))
-  .catch(err => console.error(err));
-
-// Configure Session Middleware
-app.use(session({
-  secret: 'your_secret_key', // Replace with your secret key
-  resave: false,             // Prevent session resaving
-  saveUninitialized: false,  // Save uninitialized sessions
-  store: MongoStore.create({ mongoUrl: mongoURI }), // Use MongoDB to store sessions
-  cookie: {
-    secure: false, // Set to `true` if using HTTPS
-    maxAge: 1000 * 60 * 60 * 24 // 1 day in milliseconds
-  }
-}));
-app.use(flash());
-
-// Middleware to make flash messages accessible globally
-app.use((req, res, next) => {
-    res.locals.successMessage = req.flash("success")[0];
-    res.locals.errorMessage = req.flash("error")[0];
-    next();
-});
-
-// Initialize Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-// Configure Passport to use the User model for authentication
-passport.use(new localStrategy(User_passport_model.authenticate()));
-
-// Set up session serialization and deserialization
-passport.serializeUser(User_passport_model.serializeUser());
-passport.deserializeUser(User_passport_model.deserializeUser());
 
 // Routes
 // Root Route
