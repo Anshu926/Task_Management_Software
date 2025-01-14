@@ -2,14 +2,16 @@ const express = require("express");
 const app = express();
 const port = 8000;
 const path = require("path");
+const mongoose = require("mongoose"); // Required for MongoDB connection
 const connect_db = require("./connect_db");
 const methodOverride = require("method-override");
 const User_Model = require("./schema_&_model");
 const User_passport_model = require("./user_model");
-const passport = require('passport');
-const localStrategy = require('passport-local');
+const passport = require("passport");
+const localStrategy = require("passport-local");
 const session = require("express-session");
 const flash = require("connect-flash");
+const MongoStore = require("connect-mongo"); // Required for storing sessions in MongoDB
 
 // MongoDB connection URL
 const mongoURI = "mongodb+srv://anshu_bongade1:paT0Azi48zgdvLDM@cluster0.6hhoa.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
@@ -47,7 +49,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Passport Configuration for LocalStrategy Authentication
-passport.use(new LocalStrategy(User_passport_model.authenticate()));
+passport.use(new localStrategy(User_passport_model.authenticate()));
 passport.serializeUser(User_passport_model.serializeUser());
 passport.deserializeUser(User_passport_model.deserializeUser());
 
