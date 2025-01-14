@@ -1,0 +1,407 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 2rem;
+}
+
+.todo-container {
+    width: 80%;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Header */
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.todo-header h1 {
+    margin: 0;
+    color: #444;
+}
+
+.btn-home {
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-home:hover {
+    background-color: #0056b3;
+}
+
+/* Message */
+.todo-message {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #666;
+}
+
+/* Form */
+.todo-form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.todo-form input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.btn-add {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+/* To-Do List Boxes */
+.todo-boxes {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.todo-item {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.todo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-text {
+    font-size: 1.1em;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.status.completed {
+    background-color: #28a745;
+}
+
+.status.pending {
+    background-color: #ffc107;
+}
+
+.no-tasks {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 10px;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+input[type="checkbox"]:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Delete Button Styling */
+.delete-form {
+    display: inline;
+    margin-left: 10px;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+    color: #c0392b;
+}
+
+
+
+
+
+/* General To-Do List Styling */
+.todo-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.todo-header h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.todo-message {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.todo-form {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.todo-form input {
+    padding: 10px;
+    width: 300px;
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+.todo-form button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+}
+
+.todo-form button:hover {
+    background-color: #45a049;
+}
+
+/* To-Do List Items */
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.todo-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.todo-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item .task-text {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.status.pending {
+    color: white;
+}
+
+.status.completed {
+    color: white;
+}
+
+/* Edit Button */
+.btn-edit {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: color 0.3s;
+}
+
+.btn-edit:hover {
+    color: #2980b9;
+}
+
+.edit-form {
+    margin-top: 10px;
+    display: none; /* Hidden by default */
+    width: 100%;
+}
+
+.edit-form input {
+    padding: 10px;
+    width: 250px;
+    font-size: 1.1em;
+    margin-right: 10px;
+}
+
+.edit-form button {
+    padding: 10px 20px;
+    background-color: #f39c12;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-form button:hover {
+    background-color: #e67e22;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 1.5em;
+    transition: color 0.3s;
+}
+
+.delete-btn:hover {
+    color: #c0392b;
+}
+
+/* No Tasks Message */
+.no-tasks {
+    text-align: center;
+    font-size: 1.2em;
+    color: #7f8c8d;
+}
+.todo{
+    background-color: #c4d9c8;
+    padding: 0.5rem;
+}
+
+
+
+
+
+
+/* Edit Form Styles */
+.edit-form {
+    margin-top: 10px;
+}
+
+.edit-form input[type="text"] {
+    width: 200px;
+    padding: 5px;
+}
+
+.edit-form button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Edit Button (Pencil Icon) */
+.btn-edit {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Delete Button (Trash Icon) */
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Styling for Status */
+.status {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.status.completed {
+    color: white;
+}
+
+.status.pending {
+    color: white;
+}
+.cap{
+    border: 1px solid rgb(218, 215, 215);
+    width: 20%;
+    padding: 0.5rem;
+}
+.todo{
+    background-color: transparent;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 20%;
+    text-align: left;
+}
+.check{
+    position: relative;
+    top: 0.3rem;
+}

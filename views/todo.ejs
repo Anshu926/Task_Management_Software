@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="/todo.css"> <!-- Ensure correct path -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<!-- Optional Flash Message CSS -->
+<style>
+    .flash-message {
+        padding: 10px;
+        margin: 10px auto;
+        width: 80%;
+        text-align: center;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        color: #fff;
+    }
+    .flash-message.success {
+        background-color: #4CAF50;
+    }
+    .flash-message.error {
+        background-color: #f44336;
+    }
+    /* Flash message styles */
+.flash-message {
+padding: 10px;
+margin: 10px auto;
+width: 80%;
+text-align: center;
+font-size: 1.2rem;
+border-radius: 5px;
+color: #fff;
+opacity: 1;
+transition: opacity 1s ease-out;  /* Smooth fade-out effect */
+}
+
+/* Success message background */
+.flash-message.success {
+    background-color: #c2f8c3;
+    opacity: 0.5;
+    border: 1px solid green;
+    color: green;
+}
+
+/* Error message background */
+.flash-message.error {
+background-color: #f44336;
+}
+
+/* Flash message disappearing after 5 seconds */
+.flash-message {
+animation: fadeOut 3s forwards; /* Fades out after 5 seconds */
+}
+
+/* Keyframe animation for fading out */
+@keyframes fadeOut {
+0% {
+    opacity: 1;
+}
+90% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+    display: none;
+}
+}
+
+</style>
+<body>
+     <!-- Flash Messages -->
+     <% if (successMessage) { %>
+        <div class="flash-message success">
+            <%= successMessage %>
+        </div>
+    <% } %>
+    <% if (errorMessage) { %>
+        <div class="flash-message error">
+            <%= errorMessage %>
+        </div>
+    <% } %>
+    <div class="todo-container">
+        <!-- Header -->
+        <div class="todo-header">
+            <h1><%= user.name %>'s To-Do List</h1>
+            <a href="/show/<%= user._id %>" class="btn-home">Back to User</a>
+        </div>
+
+        <!-- Message -->
+        <div class="todo-message">
+            <p>Start organizing your tasks by adding To-Dos below.</p>
+        </div>
+
+        <!-- To-Do Form -->
+        <div class="todo-form">
+            <form action="/add_todo/<%= user._id %>" method="POST">
+                <input type="text" name="task" placeholder="Enter a new task..." required>
+                <button type="submit" class="btn-add">Add To-Do</button>
+            </form>
+        </div>
+
+        <!-- Display Existing To-Do Items -->
+        <div class="todo-list">
+            <% if (user.todos.length > 0) { %>
+                <div class="todo-boxes">
+                    <% user.todos.forEach(todo => { %>
+                        <div class="todo-item">
+                            <!-- Form to toggle task completion status -->
+                            <form action="/update_todo/<%= user._id %>/<%= todo._id %>" method="POST" id="form-<%= todo._id %>" class="todo">
+                                <!-- Hidden input to preserve task value -->
+                                <input type="hidden" name="task" value="<%= todo.task %>">
+                                <input class="check" type="checkbox" id="task_<%= todo._id %>" name="completed" <%= todo.completed ? 'checked' : '' %> onchange="updateTaskStatus('<%= todo._id %>')">
+                                <label for="task_<%= todo._id %>" class="task-text"><%= todo.task %></label>
+                            </form>
+
+                            <!-- Update Form (Hidden Initially) -->
+                            <div class="edit-form" id="edit-form-<%= todo._id %>" style="display:none;">
+                                <form action="/update_todo/<%= user._id %>/<%= todo._id %>" method="POST">
+                                    <input type="text" name="task" placeholder="Update task..." value="<%= todo.task %>" required>
+                                    <button type="submit" class="btn-update">Update</button>
+                                </form>
+                            </div>
+
+                            <!-- Delete Button -->
+                             <div class="cap">
+                                <!-- Update Button (Icon) -->
+                                <button class="btn-edit" onclick="toggleEditForm('<%= todo._id %>')"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <form action="/delete_todo/<%= user._id %>/<%= todo._id %>" method="POST" class="delete-form">
+                                <button type="submit" class="delete-btn" title="Delete Task">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                            <% if (todo.completed) { %>
+                                <span class="status completed">Completed</span>
+                            <% } else { %>
+                                <span class="status pending">Pending</span>
+                            <% } %>
+                        </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p class="no-tasks">No tasks added yet. Start by adding your first To-Do!</p>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- JavaScript for toggling edit form and handling checkbox changes -->
+    <script>
+        function toggleEditForm(todoId) {
+            const form = document.getElementById('edit-form-' + todoId);
+            // Toggle visibility of the edit form
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        function updateTaskStatus(todoId) {
+            const form = document.getElementById('form-' + todoId);
+            form.submit();  // Submit the form when the checkbox is changed
+        }
+    </script>
+</body>
+</html>
